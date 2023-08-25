@@ -40,7 +40,6 @@ var upperCaseChars = lowerCaseChars.map(function (upperCase) {
   return upperCase.toUpperCase();
 });
 
-
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
@@ -55,24 +54,25 @@ function generatePassword() {
   var userCharLength = prompt(
     "How many characters would you like your password to contain"
   );
-// prompts user if password length is insufficient 
+  userCharLength = parseInt(userCharLength);
+  // prompts user if password length is insufficient
   if (userCharLength < 8 || userCharLength > 128) {
     userCharLength = prompt("Please select value between 8 - 128");
+    userCharLength = parseInt(userCharLength);
   }
 
-  // allows user to select desired variables in password 
+  // allows user to select desired variables in password
   var specialCharacters = confirm("Click ok to confirm special characters");
   var numericCharacters = confirm("Click ok to confirm numeral characters");
   var lowerCaseCharacters = confirm("Click ok to confirm lowercase characters");
   var upperCaseCharacters = confirm("Click ok to confirm uppercase characters");
 
-// object that contains all the user input data
+  // object that contains all the user input data
   var userOptions = {
-  
-  // numeric data
+    // numeric data
     length: userCharLength,
 
-  //Boolien data
+    //Boolien data
     willHaveSpecial: specialCharacters,
     willHaveNumChar: numericCharacters,
     willHaveLowChar: lowerCaseCharacters,
@@ -82,39 +82,67 @@ function generatePassword() {
   // creates an array of all data types given user inputs
   var allChars = [];
 
+  // establishes password as a blank array
+  var password = [];
+
   if (userOptions.willHaveSpecial) {
     allChars = allChars.concat(specialChars);
+    // randomly selects character from character array
+    var randomChar =
+      specialChars[Math.floor(Math.random() * specialChars.length)];
+    password.push(randomChar);
   }
   if (userOptions.willHaveNumChar) {
     allChars = allChars.concat(numericChars);
+    var randomChar =
+      numericChars[Math.floor(Math.random() * numericChars.length)];
+    password.push(randomChar);
   }
   if (userOptions.willHaveLowChar) {
     allChars = allChars.concat(lowerCaseChars);
+    var randomChar =
+      lowerCaseChars[Math.floor(Math.random() * lowerCaseChars.length)];
+    password.push(randomChar);
   }
   if (userOptions.willHaveUpChar) {
     allChars = allChars.concat(upperCaseChars);
+    var randomChar =
+      upperCaseChars[Math.floor(Math.random() * upperCaseChars.length)];
+    password.push(randomChar);
   }
 
-// establishes password as a blank variable 
-  var password = "";
+  // user length input variable subtracted by random character input
+  var looplen = userOptions.length - password.length;
 
-// runs loop randomizing the allChars array, and uses user length input to determent length
-  for (let i = 0; i < userOptions.length; i++) {
+  // runs loop randomizing the allChars array, and uses user length input to determent length
+  for (let i = 0; i < looplen; i++) {
     var randomChar = allChars[Math.floor(Math.random() * allChars.length)];
-    password += randomChar;
+    password.push(randomChar);
   }
 
-  // me testing outputs
-  console.log(allChars);
-  console.log(randomChar);
+  // ends function and stores variable password
+  return shuffle(password).join("");
+}
 
-// ends function and stores variable password
-  return password;
+function shuffle(array) {
+  var tempArray = [...array];
+  let currentIndex = tempArray.length,
+    randomIndex;
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [tempArray[currentIndex], tempArray[randomIndex]] = [
+      tempArray[randomIndex],
+      tempArray[currentIndex],
+    ];
+  }
+
+  return tempArray;
 }
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
-
 
 // My item list of tasks that needed to get done * = finished
 
