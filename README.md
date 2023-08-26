@@ -28,5 +28,8 @@ These instructions will help you set up the password generator on your local mac
 
 ## Link
 
+[Website Link](https://m1tch3llm.github.io/PassWordApp/)
 
-## Image 
+## Image
+
+![Password Generator Clip](/Screenshot%202023-08-25%20at%208.03.43%20PM.png)
